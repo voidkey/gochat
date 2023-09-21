@@ -23,7 +23,6 @@ func InitConfig() {
 
 func InitMySQL() {
 	var err error
-	fmt.Println("aaa ", viper.GetString("mysql.dsn"))
 	DB, err = gorm.Open(mysql.Open(viper.GetString("mysql.dsn")), &gorm.Config{})
 	if err != nil {
 		fmt.Println(err)
