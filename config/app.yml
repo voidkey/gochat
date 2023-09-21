@@ -1,0 +1,2 @@
+mysql:
+     dsn: root:271828@tcp(127.0.0.1:3306)/gochat?charset=utf8mb4&parseTime=True&loc=Local
