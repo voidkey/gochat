@@ -42,8 +42,4 @@ func InitMySQL() {
 		fmt.Println(err)
 		panic("failed to connect database")
 	}
-	// For test
-	// user := models.UserBasic{}
-	// db.Find(&user)
-	// fmt.Println(user)
 }
