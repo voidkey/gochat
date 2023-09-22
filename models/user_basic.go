@@ -41,6 +41,10 @@ func GetUserList() []*UserBasic {
 func FindUserByNameAndPwd(name, pwd string) *UserBasic {
 	user := UserBasic{}
 	utils.DB.Where("name = ? and password= ?", name, pwd).First(&user)
+	//token加密
+	str := fmt.Sprintf("%d", time.Now().Unix())
+	temp := utils.MD5Encode(str)
+	utils.DB.Model(&user).Where("id = ?", user.ID).Update("identity", temp)
 	return &user
 }
 

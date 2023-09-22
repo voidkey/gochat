@@ -21,6 +21,7 @@ func GetUserList(c *gin.Context) {
 	data := make([]*models.UserBasic, 10)
 	data = models.GetUserList()
 	c.JSON(200, gin.H{
+		"code":    0,
 		"message": data,
 	})
 }
@@ -43,14 +44,18 @@ func CreateUser(c *gin.Context) {
 	data := models.FindUserByName(user.Name)
 	if data.Name != "" {
 		c.JSON(-1, gin.H{
+			"code":    -1,
 			"message": "用户名已注册！",
+			"data":    user,
 		})
 		return
 	}
 
 	if password != repassword {
 		c.JSON(4000327, gin.H{
+			"code":    -1,
 			"message": "两次密码不一致！",
+			"data":    user,
 		})
 		return
 	}
@@ -62,7 +67,9 @@ func CreateUser(c *gin.Context) {
 	user.LogOutTime = time.Now()
 	models.CreateUser(user)
 	c.JSON(200, gin.H{
+		"code":    0,
 		"message": "添加用户成功！",
+		"data":    user,
 	})
 }
 
@@ -80,6 +87,7 @@ func FindUserByNameAndPwd(c *gin.Context) {
 	user := models.FindUserByName(name)
 	if user.Name == "" {
 		c.JSON(-1, gin.H{
+			"code":    -1,
 			"message": "该用户不存在！",
 		})
 		return
@@ -88,6 +96,7 @@ func FindUserByNameAndPwd(c *gin.Context) {
 	flag := utils.ValidPassword(pwd, user.Salt, user.Password)
 	if !flag {
 		c.JSON(-1, gin.H{
+			"code":    -1,
 			"message": "登录失败！",
 		})
 		return
@@ -95,7 +104,9 @@ func FindUserByNameAndPwd(c *gin.Context) {
 	password := utils.MakePassword(pwd, user.Salt)
 	data = models.FindUserByNameAndPwd(name, password)
 	c.JSON(200, gin.H{
-		"message": data,
+		"code":    0,
+		"message": "登录成功！",
+		"data":    data,
 	})
 }
 
@@ -111,7 +122,9 @@ func DeleteUser(c *gin.Context) {
 	user.ID = uint(id)
 	models.DeleteUser(user)
 	c.JSON(200, gin.H{
+		"code":    0,
 		"message": "删除用户成功！",
+		"data":    user,
 	})
 }
 
@@ -138,12 +151,16 @@ func UpdateUser(c *gin.Context) {
 	if err != nil {
 		fmt.Println("govalidator err: ", err)
 		c.JSON(200, gin.H{
+			"code":    -1,
 			"message": "修改参数不匹配！",
+			"data":    user,
 		})
 	} else {
 		models.UpdateUser(user)
 		c.JSON(200, gin.H{
+			"code":    0,
 			"message": "修改用户成功！",
+			"data":    user,
 		})
 	}
 
