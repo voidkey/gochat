@@ -1,2 +1,8 @@
 mysql:
-     dsn: root:271828@tcp(127.0.0.1:3306)/gochat?charset=utf8mb4&parseTime=True&loc=Local
+   dsn: root:271828@tcp(127.0.0.1:3306)/gochat?charset=utf8mb4&parseTime=True&loc=Local
+redis:
+   addr: "localhost:6379"
+   password: ""
+   DB: 0
+   poolSize: 30
+   minIdleConns: 30
