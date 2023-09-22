@@ -3,6 +3,8 @@ package service
 import (
 	"fmt"
 	"gochat/models"
+	"gochat/utils"
+	"math/rand"
 	"strconv"
 	"time"
 
@@ -36,6 +38,7 @@ func CreateUser(c *gin.Context) {
 	user.Name = c.Query("name")
 	password := c.Query("password")
 	repassword := c.Query("repassword")
+	salt := fmt.Sprintf("%06d", rand.Int31())
 
 	data := models.FindUserByName(user.Name)
 	if data.Name != "" {
@@ -49,15 +52,50 @@ func CreateUser(c *gin.Context) {
 		c.JSON(4000327, gin.H{
 			"message": "两次密码不一致！",
 		})
-	} else {
-		user.Password = password
+		return
 	}
+
+	user.Password = utils.MakePassword(password, salt)
+	user.Salt = salt
 	user.LogInTime = time.Now()
 	user.HeartbeatTime = time.Now()
 	user.LogOutTime = time.Now()
 	models.CreateUser(user)
 	c.JSON(200, gin.H{
 		"message": "添加用户成功！",
+	})
+}
+
+// FindUserByNameAndPwd
+// @Summary 查找用户
+// @Tags 用户模块
+// @param name formData string false "Username"
+// @param password formData string false "Password"
+// @Success 200 {string} json{"code","message"}
+// @Router /user/findUserByNameAndPwd [post]
+func FindUserByNameAndPwd(c *gin.Context) {
+	data := &models.UserBasic{}
+	name := c.Query("name")
+	pwd := c.Query("password")
+	user := models.FindUserByName(name)
+	if user.Name == "" {
+		c.JSON(-1, gin.H{
+			"message": "该用户不存在！",
+		})
+		return
+	}
+	fmt.Println("USER: ", user)
+	flag := utils.ValidPassword(pwd, user.Salt, user.Password)
+	if !flag {
+		c.JSON(-1, gin.H{
+			"message": "登录失败！",
+		})
+		return
+	}
+	password := utils.MakePassword(pwd, user.Salt)
+	data = models.FindUserByNameAndPwd(name, password)
+	c.JSON(200, gin.H{
+		"message": data,
 	})
 }
 

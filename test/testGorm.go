@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func testGorm() {
+func main() {
 	db, err := gorm.Open(mysql.Open("root:271828@tcp(127.0.0.1:3306)/gochat?charset=utf8mb4&parseTime=True&loc=Local"), &gorm.Config{})
 	if err != nil {
 		fmt.Println(err)
@@ -18,17 +18,17 @@ func testGorm() {
 	// 迁移 schema
 	db.AutoMigrate(&models.UserBasic{})
 
-	// Create
-	user := &models.UserBasic{}
-	user.Name = "飛"
-	db.Create(user)
+	// // Create
+	// user := &models.UserBasic{}
+	// user.Name = "飛"
+	// db.Create(user)
 
-	// Read
-	db.First(user, 1) // 根据整型主键查找
-	//db.First(user, "code = ?", "D42") // 查找 code 字段值为 D42 的记录
+	// // Read
+	// db.First(user, 1) // 根据整型主键查找
+	// //db.First(user, "code = ?", "D42") // 查找 code 字段值为 D42 的记录
 
-	// Update - 将 user 的 price 更新为 200
-	db.Model(user).Update("Password", "114514")
+	// // Update - 将 user 的 price 更新为 200
+	// db.Model(user).Update("Password", "114514")
 	// // Update - 更新多个字段
 	// db.Model(user).Updates(models.UserBasic{Phone: "110", Email: "a@b.com"}) // 仅更新非零值字段
 	// db.Model(user).Updates(map[string]interface{}{"Price": 200, "Code": "F42"})

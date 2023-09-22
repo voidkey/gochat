@@ -90,6 +90,36 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/findUserByNameAndPwd": {
+            "post": {
+                "tags": [
+                    "用户模块"
+                ],
+                "summary": "所有用户",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "name",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Password",
+                        "name": "password",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "code\",\"message\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/getUserList": {
             "get": {
                 "tags": [
