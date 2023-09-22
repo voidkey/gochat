@@ -65,13 +65,21 @@ paths:
         in: formData
         name: id
         type: string
-      - description: 用户名
+      - description: Username
         in: formData
         name: name
         type: string
-      - description: 密码
+      - description: Password
         in: formData
         name: password
+        type: string
+      - description: Phone
+        in: formData
+        name: phone
+        type: string
+      - description: Email
+        in: formData
+        name: email
         type: string
       responses:
         "200":

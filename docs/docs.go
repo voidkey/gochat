@@ -121,14 +121,26 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "用户名",
+                        "description": "Username",
                         "name": "name",
                         "in": "formData"
                     },
                     {
                         "type": "string",
-                        "description": "密码",
+                        "description": "Password",
                         "name": "password",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Phone",
+                        "name": "phone",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Email",
+                        "name": "email",
                         "in": "formData"
                     }
                 ],
