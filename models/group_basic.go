@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type GroupBasic struct {
 	gorm.Model
 	Name     string //Sender
-	OwenerId uint   //Receiver
+	OwenerId int64  //Receiver
 	Icon     string //Msg Type
 	Type     int
 	Desc     string

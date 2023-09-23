@@ -80,7 +80,6 @@ func Publish(ctx context.Context, channel string, msg string) error {
 // 订阅Redis消息
 func Subscribe(ctx context.Context, channel string) (string, error) {
 	sub := Rdb.Subscribe(ctx, channel)
-	fmt.Println("Subscribe.", ctx)
 	msg, err := sub.ReceiveMessage(ctx)
 	fmt.Println("Subscribe...", msg.Payload)
 	return msg.Payload, err

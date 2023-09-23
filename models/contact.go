@@ -5,9 +5,9 @@ import "gorm.io/gorm"
 // Relationship of Users
 type Contact struct {
 	gorm.Model
-	OwnerId  uint //User
-	TargetId uint //
-	Type     int  //
+	OwnerId  int64 //User
+	TargetId int64 //
+	Type     int   //
 	Desc     string
 }
 
