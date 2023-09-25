@@ -42,7 +42,6 @@ func CreateUser(c *gin.Context) {
 	password := c.Request.FormValue("password")
 	repassword := c.Request.FormValue("repassword")
 	salt := fmt.Sprintf("%06d", rand.Int31())
-	fmt.Println(user.Name, " ", password, " ", repassword, " !!!")
 	data := models.FindUserByName(user.Name)
 
 	if user.Name == "" || password == "" || repassword == "" {
@@ -217,4 +216,15 @@ func MsgHandler(ws *websocket.Conn, c *gin.Context) {
 
 func SendUserMsg(c *gin.Context) {
 	models.Chat(c.Writer, c.Request)
+}
+
+func SearchFriends(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Request.FormValue("userId"))
+	users := models.SearchFriends(int64(id))
+	// c.JSON(200, gin.H{
+	// 	"code":    0,
+	// 	"message": "查询好友列表成功",
+	// 	"data":    users,
+	// })
+	utils.RespOKList(c.Writer, users, len(users))
 }
